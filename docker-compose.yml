@@ -1,0 +1,17 @@
+services:
+    lab:
+        container_name: linux-lab
+        hostname: linuxlab
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        restart: unless-stopped
+    wetty:
+        image: wettyoss/wetty
+        container_name: wetty
+        depends_on:
+            - lab
+        ports:
+            - "3000:3000"
+        restart: unless-stopped
+        command: --base-path "" --ssh-host=lab --ssh-port=22 --command bash
